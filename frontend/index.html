@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Estoque</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">GE</div>
+            <div>
+                <strong>Gestão de Estoque</strong>
+                <span>Painel administrativo</span>
+            </div>
+        </div>
+
+        <nav class="navigation">
+            <a href="#painel" class="nav-link active">
+                <span>▦</span> Visão geral
+            </a>
+            <a href="#produtos" class="nav-link">
+                <span>▤</span> Produtos
+            </a>
+            <a href="#categorias" class="nav-link">
+                <span>▧</span> Categorias
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <span class="connection-indicator"></span>
+            <span>API REST</span>
+            <strong id="api-status">Verificando...</strong>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <span class="eyebrow">ADMINISTRAÇÃO</span>
+                <h1>Visão geral</h1>
+            </div>
+
+            <span class="environment-label">Sistema de estoque</span>
+        </header>
+
+        <section id="painel" class="welcome-section">
+            <div>
+                <span class="eyebrow">CONTROLE DE ESTOQUE</span>
+                <h2>Gerencie seus produtos</h2>
+                <p>Acompanhe produtos e categorias em um só lugar.</p>
+            </div>
+
+            <button class="primary-button" id="new-product-button">
+                + Novo produto
+            </button>
+        </section>
+
+        <section class="stats-grid">
+
+            <article class="stat-card">
+                <div class="stat-icon purple">▤</div>
+                <span>Produtos cadastrados</span>
+                <strong id="total-products">0</strong>
+                <small>Registros no sistema</small>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon blue">▧</div>
+                <span>Categorias cadastradas</span>
+                <strong id="total-categories">0</strong>
+                <small>Grupos de produtos</small>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon green">R$</div>
+                <span>Preço médio</span>
+                <strong id="average-price">R$ 0,00</strong>
+                <small>Média dos produtos cadastrados</small>
+            </article>
+
+        </section>
+
+        <section id="produtos" class="content-panel">
+
+            <div class="panel-header">
+                <div>
+                    <span class="eyebrow">CATÁLOGO</span>
+                    <h2>Produtos</h2>
+                    <p>Consulte e gerencie os produtos cadastrados.</p>
+                </div>
+
+                <button class="primary-button" id="new-product-button-secondary">
+                    + Cadastrar produto
+                </button>
+            </div>
+
+            <div class="toolbar">
+                <input
+                    type="search"
+                    id="product-search"
+                    placeholder="Buscar produto..."
+                    aria-label="Buscar produto"
+                >
+
+                <select id="category-filter" aria-label="Filtrar por categoria">
+                    <option value="">Todas as categorias</option>
+                </select>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Categoria</th>
+                            <th>Preço</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="product-table">
+                        <tr>
+                            <td colspan="4" class="empty-state">
+                                Carregando produtos...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+        <section id="categorias" class="content-panel category-panel">
+
+            <div class="panel-header">
+                <div>
+                    <span class="eyebrow">ORGANIZAÇÃO</span>
+                    <h2>Categorias</h2>
+                    <p>Cadastre e organize seus produtos.</p>
+                </div>
+            </div>
+
+            <form id="category-form" class="category-form">
+                <div class="field">
+                    <label for="category-name">Nome da categoria</label>
+                    <input
+                        type="text"
+                        id="category-name"
+                        maxlength="100"
+                        placeholder="Ex.: Eletrônicos"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="primary-button">
+                    Adicionar categoria
+                </button>
+            </form>
+
+            <div id="category-list" class="category-list">
+                <p class="empty-state">Carregando categorias...</p>
+            </div>
+
+        </section>
+
+        <footer class="page-footer">
+            Sistema de Gestão de Estoque · API REST + Spring Boot
+        </footer>
+
+    </main>
+
+</div>
+
+<!-- Modal de cadastro e edição de produtos -->
+<dialog id="product-dialog" class="product-dialog">
+
+    <form id="product-form">
+
+        <div class="dialog-header">
+            <div>
+                <span class="eyebrow">CATÁLOGO</span>
+                <h2 id="dialog-title">Novo produto</h2>
+            </div>
+
+            <button type="button" class="close-button" id="close-dialog"
+                    aria-label="Fechar">×</button>
+        </div>
+
+        <div class="field">
+            <label for="product-name">Nome do produto *</label>
+            <input
+                type="text"
+                id="product-name"
+                maxlength="120"
+                placeholder="Digite o nome do produto"
+                required
+            >
+        </div>
+
+        <div class="field">
+            <label for="product-price">Preço (R$) *</label>
+            <input
+                type="number"
+                id="product-price"
+                min="0.01"
+                step="0.01"
+                placeholder="0,00"
+                required
+            >
+        </div>
+
+        <div class="field">
+            <label for="product-category">Categoria *</label>
+            <select id="product-category" required>
+                <option value="">Selecione uma categoria</option>
+            </select>
+        </div>
+
+        <div class="dialog-actions">
+            <button type="button" class="secondary-button" id="cancel-dialog">
+                Cancelar
+            </button>
+
+            <button type="submit" class="primary-button" id="save-product-button">
+                Salvar produto
+            </button>
+        </div>
+
+    </form>
+
+</dialog>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="js/app.js"></script>
+
+</body>
+</html>

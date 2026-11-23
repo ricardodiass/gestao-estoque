@@ -1,0 +1,18 @@
+# Java e Maven
+**/target/
+
+# Banco H2
+backend/data/
+*.mv.db
+*.trace.db
+
+# IDEs
+.idea/
+.vscode/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
