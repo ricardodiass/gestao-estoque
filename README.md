@@ -159,12 +159,34 @@ Senha: em branco.
 
 ## 9. Testes realizados
 
-- Cadastro, consulta, atualização e exclusão de produtos.
-- Cadastro, consulta e exclusão de categorias.
-- Teste do relacionamento entre as entidades.
-- Teste de validações HTTP 400.
-- Teste de recurso inexistente HTTP 404.
-- Teste de conflito HTTP 409.
-- Testes de integração pela interface gráfica.
-- Compilação e testes com Maven.
+### Testes automatizados
 
+Implementados com JUnit 5, Spring Boot Test e HttpClient.
+
+Os testes utilizam um banco H2 em memória, separado do banco da aplicação.
+
+Foram implementados quatro testes de integração:
+
+1. CRUD completo de categorias.
+2. CRUD completo de produtos, incluindo o relacionamento com categorias.
+3. Validação de dados inválidos (400) e recursos inexistentes (404).
+4. Proteção contra exclusão de categorias com produtos vinculados (409).
+
+Resultado da execução:
+
+- 4 testes executados.
+- 0 falhas.
+- 0 erros.
+- BUILD SUCCESS.
+
+### Testes manuais da interface gráfica
+
+- Conexão do frontend com a API REST.
+- Cadastro de categorias e produtos.
+- Seleção de categoria no formulário.
+- Atualização de produtos.
+- Exclusão de produtos e categorias.
+- Tratamento visual de erros da API.
+- Atualização dos indicadores do dashboard.
+
+Projeto desenvolvido para fins acadêmicos.
